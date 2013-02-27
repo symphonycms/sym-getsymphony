@@ -22,3 +22,6 @@
 [submodule "extensions/xssfilter"]
 	path = extensions/xssfilter
 	url = git://github.com/symphonycms/xssfilter.git
+[submodule "workspace"]
+	path = workspace
+	url = git@github.com:symphonycms/sym-getsymphony.git

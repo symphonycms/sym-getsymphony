@@ -14,7 +14,7 @@
 			'pagination_maximum_rows' => '20',
 			'lang' => 'en',
 			'pages_table_nest_children' => 'no',
-			'version' => VERSION,
+			'version' => '2.3.2RC1',
 			'cookie_prefix' => 'sym-',
 			'session_gc_divisor' => '10',
 		),
@@ -50,7 +50,7 @@
 
 		###### GENERAL ######
 		'general' => array(
-			'sitename' => 'Symphony CMS',
+			'sitename' => 'Symphony Network',
 		),
 		########
 
@@ -74,7 +74,7 @@
 			'time_format' => 'g:i a',
 			'date_format' => 'm/d/Y',
 			'datetime_separator' => ' ',
-			'timezone' => null
+			'timezone' => 'America/Los_Angeles',
 		),
 		########
 
@@ -83,6 +83,13 @@
 		'image' => array(
 			'cache' => '1',
 			'quality' => '90',
+		),
+		########
+
+
+		###### MAINTENANCE_MODE ######
+		'maintenance_mode' => array(
+			'enabled' => 'no',
 		),
 		########
 	);
