@@ -24,4 +24,4 @@
 	url = git://github.com/symphonycms/xssfilter.git
 [submodule "workspace"]
 	path = workspace
-	url = git@github.com:symphonycms/sym-getsymphony.git
+	url = git://github.com/symphonycms/sym-getsymphony.git
