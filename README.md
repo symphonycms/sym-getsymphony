@@ -582,7 +582,7 @@ And remove the `workspace` directory from the list, so the file looks like this:
 
 With the `.gitignore` file saved, we can now add the `workspace` branch of the repository as a submodule:
 
-    git submodule add git@github.com:symphonycms/sym-getsymphony.git workspace
+    git submodule add git://github.com/symphonycms/sym-getsymphony.git workspace
 
 which should return the following:
 
@@ -697,3 +697,21 @@ So, update the submodule by adding the changed directory, committing it and push
 	git push origin develop
 
 And that's it. Of course, this is a worthless example of an Ensemble, since all it does is change the name of the site. But, it's just a starting point for some amazing things.
+
+### Testing the Ensemble
+
+To test whether our Ensemble set up is working, let's now use the virtual host that we set up initially for the local copy of the production site, `getsymphony.local`. So, in a Terminal window, navigate to the root of the virtual host:
+
+	cd ~/Sites/projects/getsymphony/local/public
+
+Then, make sure the directory is empty. We created an HTML file earlier. Let's remove it:
+
+	rm index.html
+
+Now, we're ready to clone the Ensemble repository, using the `--recursive` option to initialize and check out all the submodules, specifying the `develop` branch instead of the default `master` branch:
+
+	git clone --recursive --branch develop git://github.com/symphonycms/sym-getsymphony.git .
+
+The test comes when we try to install the Ensemble. Navigate to http://getsymphony.local/ and we should be redirected to the installer page. The modified site name will actually display in the Symphony installer screen as the value of the first field, "Name," under the heading, "Website Preferences." If so, the Ensemble is configured properly. We'll know for sure when the Ensemble installs successfully and you can log into the Symphony admin area to view the name of the site in the header.
+
+It works!
