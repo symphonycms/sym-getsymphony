@@ -245,9 +245,10 @@ CREATE TABLE `sym_pages` (
   `sortorder` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_pages` ***
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (1, NULL, 'Home', 'home', NULL, NULL, NULL, NULL, 1);
 
 -- *** STRUCTURE: `sym_pages_types` ***
 DROP TABLE IF EXISTS `sym_pages_types`;
@@ -257,9 +258,10 @@ CREATE TABLE `sym_pages_types` (
   `type` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `page_id` (`page_id`,`type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_pages_types` ***
+INSERT INTO `sym_pages_types` (`id`, `page_id`, `type`) VALUES (2, 1, 'index');
 
 -- *** STRUCTURE: `sym_sections` ***
 DROP TABLE IF EXISTS `sym_sections`;

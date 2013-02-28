@@ -159,8 +159,10 @@ INSERT INTO`tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`,
 -- *** DATA:`tbl_fields` ***
 
 -- *** DATA:`tbl_pages` ***
+INSERT INTO`tbl_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (1, NULL, 'Home', 'home', NULL, NULL, NULL, NULL, 1);
 
 -- *** DATA:`tbl_pages_types` ***
+INSERT INTO`tbl_pages_types` (`id`, `page_id`, `type`) VALUES (2, 1, 'index');
 
 -- *** DATA:`tbl_sections` ***
 
