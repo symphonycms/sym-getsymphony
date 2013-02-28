@@ -92,4 +92,13 @@
 			'enabled' => 'no',
 		),
 		########
+
+
+		###### DUMP_DB ######
+		'dump_db' => array(
+			'last_sync' => '2013-02-28T12:41:03-08:00',
+			'path' => '/workspace/sql',
+			'restore' => 'yes',
+		),
+		########
 	);
