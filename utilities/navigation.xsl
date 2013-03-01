@@ -24,7 +24,7 @@
 
 <xsl:template match="data" mode="network-navigation">
   <nav class="network-nav column">
-    <xsl:apply-templates select="network/site" />
+    <xsl:apply-templates select="network/site" mode="disabled" />
   </nav>
 </xsl:template>
 
@@ -35,6 +35,16 @@
     </xsl:if>
     <xsl:if test="@type = 'primary'">
       <xsl:attribute name="href"><xsl:value-of select="concat($root, '/')" /></xsl:attribute>
+    </xsl:if>
+    <xsl:value-of select="name" />
+  </a>
+</xsl:template>
+
+<!-- Disabled Symphony Network navigation -->
+<xsl:template match="network/site" mode="disabled">
+  <a href="{$root}/#{@handle}">
+    <xsl:if test="@handle = $site/@handle">
+      <xsl:attribute name="class">active</xsl:attribute>
     </xsl:if>
     <xsl:value-of select="name" />
   </a>
