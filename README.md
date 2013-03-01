@@ -715,3 +715,265 @@ Now, we're ready to clone the Ensemble repository, using the `--recursive` optio
 The test comes when we try to install the Ensemble. Navigate to http://getsymphony.local/ and we should be redirected to the installer page. The modified site name will actually display in the Symphony installer screen as the value of the first field, "Name," under the heading, "Website Preferences." If so, the Ensemble is configured properly. We'll know for sure when the Ensemble installs successfully and you can log into the Symphony admin area to view the name of the site in the header.
 
 It works!
+
+
+### Install Dump DB Extension
+
+When developing an ensemble with Git, there are times when we find that something didn't work exactly as planned, so we need a way of being able to roll back changes to a point in the history of the repository just before things started going down the wrong path.
+
+
+#### Issues with Development Rollbacks 
+
+With the Export Ensemble extension, it is possible to continuously save the database changes and commit these changes as part of the Git repository history. But because of the syntax being used by the SQL files, it is not possible to use the install file to import data into a MySQL database. The database prefix is sanitized by the export process, so that the SQL statements in the `install.sql` files refer to the `tbl_` prefix, which is changed to the prefix specified in the Symphony installation process. So, unless we want to run a string replacement process on the SQL file, the only way to use the Ensemble installer files is by installing Symphony. This means having to prepare the server files for installation again. Files, directories and database tables must be removed.
+
+- Remove `.htaccess` file
+- Remove `manifest` directory
+- Remove all database tables
+
+If we need to install the Ensemble again, we can run the following command from the site root:
+
+	sudo rm -rf .htaccess manifest
+
+When the tables of the database have been deleted, navigate to the virtual host in a browser and go through the install process again. This is necessary, because the Export Ensemble extension sanitizes the files by removing any sensitive preferences, author data and server configuration settings. These details must be entered again in the installation process. You can imagine how tedious this can become to have to tear down and install every time you need to roll back to a previous point in the repository history.
+
+
+#### Dump DB Extension
+
+It is much easier to have the SQL data dumped to a file and to maintain this file in the Git repository. Whenever you need to roll back to a previous version, check out the commit, then drop the tables and import the SQL dump from that commit. The Dump DB extension fulfills this requirement by providing an interface for saving the structural data and the author data to separate files. This gives us the option of maintaining a public repository, but only saving the structural data to the `data.sql`. Alternatively, we can maintain a private repository, if the author data must be maintained in the repository as an important part of the development process. This is something that the Export Ensemble extension cannot do, since it removes author data in the export process.
+
+**Be aware that you should never publicly share the `author.sql` file created by the Dump DB extension, as it contains sensitive author login and password data.**
+
+The Dump DB extension is the perfect companion to the Export Ensemble in the process of developing a Symphony Ensemble. So, let's install the Dump DB extension as a submodule and install it in the Symphony Network Ensemble.
+
+First, navigate to the site root:
+
+	cd ~/Sites/projects/getsymphony/dev/public
+
+Then, add the Dump DB extension as a submodule:
+
+	git submodule add git://github.com/nils-werner/dump_db.git extensions/dump_db
+
+This will clone and checkout the appropriate commit of the Dump DB extension into the `extensions/dump_db` directory and stage the `.gitmodules` file and the Dump DB extension submodule to be committed. Then, we can commit this change to the `develop` branch:
+
+	git commit -m "Add Dump DB extension as a submodule"
+
+Navigate to the [Extensions page](http://getsymphony.dev/symphony/system/extensions/) in the Symphony admin. Select the Dump DB extension by clicking on the row to select it. Use the "With Selected..." menu at the bottom of the page to select the "Enable/Install" option and click the "Apply" button to install the extension.
+
+Now, we should be able to navigate to the [Preferences](http://getsymphony.dev/symphony/system/preferences/) page to see the "Save Authors" and "Save Data" buttons in the "Dump Database" field set.
+
+
+#### Save the SQL Files
+
+First, let's modify the configuration settings for the [Dump DB extension](http://symphonyextensions.com/extensions/dump_db/) by manually adding the following to the `manifest/config.php` file (at the end of the file should be fine):
+
+		###### DUMP_DB ######
+		'dump_db' => array(
+			'last_sync' => '2013-02-28T10:56:51-08:00',
+			'path' => '/workspace/sql',
+			'restore' => 'yes'
+		),
+		########
+
+Next, create the `workspace/sql` directory:
+
+	git mkdir workspace/sql
+
+Because we are working locally, we can avoid permissions issues by modifying the `.git/config` file to prevent the repository from tracking file mode changes. At the top of the file, you'll see:
+
+	[core]
+		repositoryformatversion = 0
+		filemode = true
+		bare = false
+		logallrefupdates = true
+		ignorecase = true
+		precomposeunicode = false
+
+Change the `filemode` for the Git repositories in the site root directory and the workspace directory to:
+
+	filemode = false
+
+Then, Git will ignore changes to the Unix permissions settings for files when checking the working tree for modified files.
+
+While we are working on local files, we can avoid permissions problems we might have when saving Dump DB or Export Ensemble files by opening up the permissions on certain files and directories.
+
+	sudo chmod -R 777 install
+	sudo chmod 777 workspace/install.sql
+
+Just be sure that these permissions are properly set to be more secure when working on the remote production and development servers. Of course, for security reasons, the install files should be removed on a production server.
+
+Now, navigate to the Symphony admin System > [Preferences](http://getsymphony.dev/symphony/system/preferences/) page. Click on the "Save Data" button in the Dump Database field set. Also, click on the "Save Install Files" button in the Export Ensemble field set.
+
+On the command line, change into the `workspace` directory and stage the `install.sql` file and the `sql` directory to be committed.
+
+	cd workspace
+	git add install.sql sql
+
+Running `git status` returns:
+
+	# On branch workspace
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#	modified:   install.sql
+	#	new file:   sql/data.sql
+	#
+
+Commit the changes and push them:
+
+	git commit -m "Add SQL files after installing Dump DB extension"
+	git push origin workspace
+
+Then, move back up to the site root and stage the `install` and `workspace` directories to be committed:
+
+	cd ..
+	git add install workspace
+	git status
+
+which should return:
+
+	# On branch develop
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#	modified:   install/includes/config_default.php
+	#	modified:   workspace
+	#
+
+Commit these changes to update the `workspace` submodule and to include changes to the Export Ensemble install files and push them to the remote.
+
+	git commit -m "Update install files and workspace submodule after installing Dump DB extension"
+	git push origin develop
+
+
+### Test the Dump Database Extension
+
+To check that everything is working well, pull the changes into the getsymphony.local virtual host. Change into the root directory of the site, pull the `develop` branch from the `origin` remote, and update the submodules:
+
+	cd ~/Sites/projects/getsymphony/local/public
+	git pull origin develop
+	git submodule update --init
+
+It is not possible to update the database with Dump DB until the extension is enabled. By installing the updated Ensemble, we will be able to include the configuration settings for the Dump DB extension. Let's get the getsymphony.local virtual host in sync with the getsymphony.dev virtual host by reinstalling the Ensemble.
+
+	sudo rm -rf .htaccess manifest
+
+Then, remove all the database tables from the `getsymphony_local` MySQL database. Now, install Symphony by navigating to <http://getsymphony.local/> in a browser.
+
+If all went well, we should be able to open the Extensions page in a browser and see that the Dump DB extension is enabled.
+
+Lets treat the `dev` site as the development site. Then we can work with the `local` site as if it were the production site. To test the set up, let's create a Home page on the development site. Navigate to the [Pages index page](http://getsymphony.dev/symphony/blueprints/pages/) and click on the "Create New" button. Fill in the following values:
+
+- Page Settings > Title: `Home`
+- Page Settings > Page Type: `index`
+
+Then, click the "Create Page" button. You should now be able to click on the site name on the left side of the Symphony admin header to navigate to the Home page. Then, navigate to the System > [Preferences](http://getsymphony.dev/symphony/system/preferences/) page, and click on the "Save Data" and "Save Install Files" buttons. 
+
+In a Terminal window, navigate to the `workspace` directory:
+
+	cd ~/Sites/projects/getsymphony/dev/public/workspace
+
+Then, check the status of the working tree with `git status`:
+
+	# On branch workspace
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#   (use "git checkout -- <file>..." to discard changes in working directory)
+	#
+	#	modified:   install.sql
+	#	modified:   sql/data.sql
+	#
+	# Untracked files:
+	#   (use "git add <file>..." to include in what will be committed)
+	#
+	#	pages/home.xsl
+	no changes added to commit (use "git add" and/or "git commit -a")
+
+Let's add all of these changes to be staged.
+
+	git add .
+
+Now, the install files and the Home page template are staged to be committed:
+
+	# On branch workspace
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#	modified:   install.sql
+	#	new file:   pages/home.xsl
+	#	modified:   sql/data.sql
+	#
+
+Commit these changes to the `workspace` branch:
+
+	git commit -m "Add Home page and update SQL files"
+
+which returns this:
+
+	[workspace 6737b64] Add Home page and update SQL files
+	 3 files changed, 22 insertions(+), 2 deletions(-)
+	 create mode 100644 pages/home.xsl
+
+and push the commit to the `origin` remote:
+
+	git push origin workspace
+
+which returns:
+
+	Counting objects: 12, done.
+	Delta compression using up to 4 threads.
+	Compressing objects: 100% (6/6), done.
+	Writing objects: 100% (7/7), 1.14 KiB, done.
+	Total 7 (delta 3), reused 0 (delta 0)
+	To git@github.com:symphonycms/sym-getsymphony.git
+	   fac240c..6737b64  workspace -> workspace
+
+Navigate back up to the superproject and check the status:
+
+	cd ..
+	git status
+
+We should see:
+
+	# On branch develop
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#   (use "git checkout -- <file>..." to discard changes in working directory)
+	#
+	#	modified:   install/includes/config_default.php
+	#	modified:   install/includes/install.sql
+	#	modified:   workspace (new commits)
+	#
+	no changes added to commit (use "git add" and/or "git commit -a")
+
+See what has changed with `git diff`.
+
+If everything is good, we can commit these changes and push them to `origin`:
+
+	git add install workspace
+	git commit -m "Update workspace submodule and install files after adding Home page"
+	git push origin develop
+
+Great! Now, we can switch back to our "production" site, <http://getsymphony.local/>, and check out the changes.
+
+	cd ~/Sites/projects/getsymphony/local/public
+	git pull origin develop
+	git submodule update
+
+This time, there are no new submodules to initialize, so we left off the `--init` option from the `git submodule update` command.
+
+Now, there is one step left: navigate to the System > [Preferences](http://getsymphony.local/symphony/system/preferences/) page to restore the database. Click on the "Restore Data" button in the Dump Database fieldset. And alert box will display with the following message:
+
+> **The page at getsymphony.local says:**  
+> Do you really want to overwrite your database with the contents from the file?
+
+Click the "OK" button. A notification displays at the top of the page when the database has successfully been restored:
+
+> Data successfully restored from /workspace/sql/data.sql in 68 queries.
+
+Notice that the Home page has been added to the Blueprints > [Pages](http://getsymphony.local/symphony/blueprints/pages/) index. And we can also navigate to the Home page on the front end: <http://getsymphony.local/>.
+
+So, there you have it: a Git-oriented process for deploying sites from development to production (sort of).
+
+**Note**: this approach does not take into account the proper workflow for a live site with user-generated content, as the Dump DB extension will restore the database with a series of MySQL `INSERT` statements. If anything has been added or deleted on the production site, the Dump DB restore process has the potential of wreaking havoc because of differences with the `AUTO_INCREMENT` values. The Dump DB extension works well with an incremental process of updating structural database changes in a development process, such as the creation of a Symphony Ensemble or a new site design. However, if you delete a section, for example, the Dump DB restore process does not take care of deleted rows. You will need to remove all the structural data tables and then manually import the SQL file. I have learned this the hard way. I have come to trust this process of saving both the Export Ensemble and Dump DB SQL files as often as I make structural changes to an Ensemble. If things go awry, I can alway reinstall from a commit that I trust was in a working state.
+
+For a live site on a production server, the process should be reversed, where data on the production server is considered canonical. To maintain database synchronization between development and production environments, strongly consider using the [Database Synchroniser](http://symphonyextensions.com/extensions/db_sync/) extension or the [Continuous Database Integration](http://symphonyextensions.com/extensions/cdi/) extension.
