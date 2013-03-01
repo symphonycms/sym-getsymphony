@@ -977,3 +977,64 @@ So, there you have it: a Git-oriented process for deploying sites from developme
 **Note**: this approach does not take into account the proper workflow for a live site with user-generated content, as the Dump DB extension will restore the database with a series of MySQL `INSERT` statements. If anything has been added or deleted on the production site, the Dump DB restore process has the potential of wreaking havoc because of differences with the `AUTO_INCREMENT` values. The Dump DB extension works well with an incremental process of updating structural database changes in a development process, such as the creation of a Symphony Ensemble or a new site design. However, if you delete a section, for example, the Dump DB restore process does not take care of deleted rows. You will need to remove all the structural data tables and then manually import the SQL file. I have learned this the hard way. I have come to trust this process of saving both the Export Ensemble and Dump DB SQL files as often as I make structural changes to an Ensemble. If things go awry, I can alway reinstall from a commit that I trust was in a working state.
 
 For a live site on a production server, the process should be reversed, where data on the production server is considered canonical. To maintain database synchronization between development and production environments, strongly consider using the [Database Synchroniser](http://symphonyextensions.com/extensions/db_sync/) extension or the [Continuous Database Integration](http://symphonyextensions.com/extensions/cdi/) extension.
+
+
+### Integrating Symphony Factory into the Ensemble
+
+We'll start by creating all the pages of the main navigation of the Community Site:
+
+- Stream
+- Discussions
+- Questions
+- Blog
+- Showcase
+- Events
+- About
+
+Then, we save the Dump DB data and the Export Ensemble install files.
+
+Commit the page templates to the `workspace` branch:
+
+	cd workspace
+	git add pages
+	git commit -m "Create pages for main navigation"
+
+Commit the database changes to the `workspace` branch:
+
+	git add .
+	git commit -m "Update SQL files after creating main pages"
+	git push origin workspace
+
+Commit the changes to the workspace submodule and Ensemble files to the `develop` branch:
+
+	cd ..
+	git add -u
+	git commit -m "Update workspace: Create main navigation pages"
+	git push origin develop
+
+Add the `development` branch of the Symphony Factory framework as a submodule of the `workspace` submodule:
+
+	cd workspace
+	git submodule add --branch development git://github.com/symphonycms/factory.git factory
+	git commit -m "Add development branch of the Symphony Factory framework as a submodule"
+	git push origin workspace
+
+[Fix the HTML repository](https://github.com/symphonycms/getsymphony-html/commit/27c490eb7c42547de675ab67b6ad6f43900b08f2) to more closely match templates for portability to Symphony. Make modifications to the templates to enable the layout in Symphony, using flat XML files until sections, fields and data sources have been configured.
+
+Disable the Symphony Network navigation links until the sites are ready to be connected.
+
+Push the `develop` and `workspace` branches to the `origin`.
+
+#### Testing the Ensemble Updates
+
+Test the updates in the `local` virtual host. It is important to include the `--recursive` option when updating the submodules because the `workspace` branch now contains a submodule for the Symphony Factory framework.
+
+	cd ~/Sites/projects/getsymphony/local/public
+	git pull origin develop
+	git submodule update --init --recursive
+
+Navigate to the System > Preferences page and click on the Dump DB "Restore Data" button.
+
+The main navigation for the Community site is working.
+
+**Now, we are ready to collaborate on the Network sites!**
