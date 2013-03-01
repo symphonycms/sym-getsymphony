@@ -13,30 +13,13 @@
   encoding="UTF-8"
   indent="yes" />
 
-<!-- Page Parameters -->
+<!-- Load XML data -->
 <xsl:param name="config" select="document('../data/_config.xml')" />
 <xsl:param name="website-name" select="$config/data/config/website-name" />
-<xsl:param name="site" select="/data/params/site" />
-<xsl:param name="root" select="/data/params/root" />
-<xsl:param name="workspace" select="concat($root, '/workspace')" />
-<xsl:param name="page-title" select="/data/params/page-title" />
-<xsl:param name="current-page" select="/data/params/current-page" />
-<xsl:param name="parent-page" select="/data/params/parent-page" />
-<xsl:param name="section-page" select="/data/params/section-page" />
-<xsl:param name="subsection-page" select="/data/params/subsection-page" />
-<xsl:param name="root-page">
-  <xsl:choose>
-    <xsl:when test="/data/params/root-page">
-      <xsl:value-of select="/data/params/root-page" />
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="$current-page" />
-    </xsl:otherwise>
-  </xsl:choose>
-</xsl:param>
+<xsl:param name="page-data" select="document('../data/index.xml')" />
+<xsl:param name="site" select="$page-data/data/params/site" />
 <xsl:param name="network" select="document('../data/_network.xml')" />
 <xsl:param name="navigation" select="document('../data/_navigation.xml')" />
-<xsl:param name="has-section-nav" select="false()" />
 
 <!-- Directories -->
 <xsl:param name="assets" select="concat($workspace, '/assets')" />

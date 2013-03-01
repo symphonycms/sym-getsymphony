@@ -14,7 +14,7 @@
     <!-- Current page -->
     <div id="site">
       <xsl:call-template name="header" />
-      <xsl:apply-templates />
+      <xsl:apply-templates select="$page-data/data" />
     </div>
     <xsl:call-template name="footer" />
   </body>
