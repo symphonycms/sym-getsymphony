@@ -96,7 +96,7 @@
 
 		###### DUMP_DB ######
 		'dump_db' => array(
-			'last_sync' => '2013-02-28T15:48:56-08:00',
+			'last_sync' => '2013-02-28T17:53:56-08:00',
 			'path' => '/workspace/sql',
 			'restore' => 'yes',
 		),
