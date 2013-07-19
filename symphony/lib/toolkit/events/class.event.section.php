@@ -9,7 +9,7 @@
 	 * data entered on the frontend to a corresponding Symphony section.
 	 *
 	 * @since Symphony 2.3.1
-	 * @link http://symphony-cms.com/learn/concepts/view/events/
+	 * @link http://getsymphony.com/learn/concepts/view/events/
 	 */
 
 	require_once(TOOLKIT . '/class.sectionmanager.php');
@@ -210,6 +210,10 @@
 
 						$entry = new XMLElement('entry', null, array('position' => $position));
 
+						// Reset errors for each entry execution
+						$this->filter_results = $this->filter_errors = array();
+
+						// Execute the event for this entry
 						$ret = $this->__doit(
 							$fields, $entry, $position, $entry_id
 						);

@@ -341,6 +341,7 @@
 				$result = curl_exec($ch);
 
 				$this->_info_last = curl_getinfo($ch);
+				$this->_info_last['curl_error'] = curl_errno($ch);
 
 				// Close the connection
 				curl_close ($ch);
