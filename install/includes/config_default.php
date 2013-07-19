@@ -12,12 +12,12 @@
 		###### SYMPHONY ######
 		'symphony' => array(
 			'pagination_maximum_rows' => '20',
-            'association_maximum_rows' => '5',
 			'lang' => 'en',
 			'pages_table_nest_children' => 'no',
-			'version' => '2.3.2RC1',
+			'version' => '2.3.3',
 			'cookie_prefix' => 'sym-',
 			'session_gc_divisor' => '10',
+			'association_maximum_rows' => '5',
 		),
 		########
 
@@ -52,6 +52,7 @@
 		###### GENERAL ######
 		'general' => array(
 			'sitename' => 'Symphony Network',
+			'useragent' => 'Symphony/2.3.3',
 		),
 		########
 
@@ -73,9 +74,9 @@
 		###### REGION ######
 		'region' => array(
 			'time_format' => 'g:i a',
-			'date_format' => 'm/d/Y',
+			'date_format' => 'd F Y',
 			'datetime_separator' => ' ',
-			'timezone' => 'America/Los_Angeles',
+			'timezone' => 'America/Vancouver',
 		),
 		########
 

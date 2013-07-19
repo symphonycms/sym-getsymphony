@@ -9,7 +9,7 @@ CREATE TABLE`tbl_authors` (
   `last_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `last_seen` datetime DEFAULT '0000-00-00 00:00:00',
-  `user_type` enum('author','developer') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'author',
+  `user_type` enum('author','manager','developer') COLLATE utf8_unicode_ci DEFAULT 'author',
   `primary` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `default_area` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `auth_token_active` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
@@ -158,6 +158,7 @@ CREATE TABLE`tbl_fields_selectbox_link` (
   `show_association` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
   `related_field_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `limit` int(4) unsigned NOT NULL DEFAULT '20',
+  `hide_when_prepopulated` enum('yes','no') COLLATE utf8_unicode_ci DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
