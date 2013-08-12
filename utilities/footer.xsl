@@ -7,7 +7,7 @@
     <div class="field">
       <!-- Community -->
       <p class="footer-community">
-        <strong>&#169; 2010–2012 The Symphony Community</strong>
+        <strong>&#169; 2010–<xsl:value-of select="$this-year" /> The Symphony Community</strong>
         <a href="http://getsymphony.com">International Site</a> · <a href="http://twitter.com/symphonycms">Twitter</a>
       </p>
       <!-- Developer links -->
