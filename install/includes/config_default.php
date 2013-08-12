@@ -74,9 +74,9 @@
 		###### REGION ######
 		'region' => array(
 			'time_format' => 'g:i a',
-			'date_format' => 'd F Y',
+			'date_format' => 'm/d/Y',
 			'datetime_separator' => ' ',
-			'timezone' => 'America/Vancouver',
+			'timezone' => 'America/Los_Angeles',
 		),
 		########
 
@@ -85,20 +85,22 @@
 		'image' => array(
 			'cache' => '1',
 			'quality' => '90',
+			'disable_regular_rules' => 'no',
+			'disable_upscaling' => 'no',
 		),
 		########
 
 
 		###### MAINTENANCE_MODE ######
 		'maintenance_mode' => array(
-			'enabled' => 'no',
+			'enabled' => 'yes',
 		),
 		########
 
 
 		###### DUMP_DB ######
 		'dump_db' => array(
-			'last_sync' => '2013-02-28T17:53:56-08:00',
+			'last_sync' => '2013-08-11T17:40:17-07:00',
 			'path' => '/workspace/sql',
 			'restore' => 'yes',
 		),
