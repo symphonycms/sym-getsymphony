@@ -37,3 +37,6 @@
 [submodule "extensions/uniondatasource"]
 	path = extensions/uniondatasource
 	url = git://github.com/brendo/uniondatasource.git
+[submodule "extensions/elasticsearch"]
+	path = extensions/elasticsearch
+	url = git://github.com/symphonists/elasticsearch.git
