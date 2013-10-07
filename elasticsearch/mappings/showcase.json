@@ -1,0 +1,32 @@
+{
+    "showcase": {
+        "properties": {
+            "name": {
+                "type" : "multi_field",
+                "store": "yes",
+                "fields": {
+                    "topic": {"type" : "string"},
+                    "symphony_fulltext" : {"type" : "string", "analyzer": "symphony_fulltext"},
+                    "symphony_autocomplete" : {"type" : "string", "analyzer": "symphony_autocomplete"}
+                },
+                "boost": 3.0
+            },
+            "description": {
+                "type" : "multi_field",
+                "store": "yes",
+                "fields": {
+                    "content": {"type" : "string"},
+                    "symphony_fulltext" : {"type" : "string", "analyzer": "symphony_fulltext"}
+                },
+                "symphony_highlight": "yes"
+            },
+            "tags": {
+                "type" : "multi_field",
+                "store": "yes",
+                "fields": {
+                    "content": {"type" : "string"}
+                }
+            }
+        }
+    }
+}
