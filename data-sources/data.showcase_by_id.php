@@ -2,9 +2,9 @@
 
 	require_once(TOOLKIT . '/class.datasource.php');
 
-	Class datasourceutility_by_id extends SectionDatasource {
+	Class datasourceshowcase_by_id extends SectionDatasource {
 
-		public $dsParamROOTELEMENT = 'utility-by-id';
+		public $dsParamROOTELEMENT = 'showcase-by-id';
 		public $dsParamORDER = 'desc';
 		public $dsParamPAGINATERESULTS = 'yes';
 		public $dsParamLIMIT = '1';
@@ -20,16 +20,18 @@
 		
 
 		public $dsParamFILTERS = array(
-				'system:id' => '{$utility-id}',
+				'system:id' => '{$showcase-id}',
 		);
 		
 
 		public $dsParamINCLUDEDELEMENTS = array(
 				'system:date',
 				'name',
-				'content',
+				'description: formatted',
+				'link',
 				'tags',
-				'author'
+				'author',
+				'screenshot'
 		);
 		
 
@@ -40,13 +42,13 @@
 
 		public function about() {
 			return array(
-				'name' => 'Utility by ID',
+				'name' => 'Showcase by ID',
 				'author' => array(
 					'name' => 'Brendan Abbott',
 					'website' => 'http://brendan.dev/dev.getsymphony.com',
 					'email' => 'brendan@bloodbone.ws'),
 				'version' => 'Symphony 2.3.3',
-				'release-date' => '2013-10-07T01:20:29+00:00'
+				'release-date' => '2013-10-07T11:45:53+00:00'
 			);
 		}
 

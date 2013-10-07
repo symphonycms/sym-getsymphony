@@ -15,7 +15,7 @@
 		
 
 		public $dsParamFILTERS = array(
-				'10' => '{$ds-comments-by-stream-id.author}, {$ds-stream-by-id.author}',
+				'10' => '{$ds-comments-by-stream-id.author}, {$ds-stream-by-id.author}, {$ds-showcase-by-id.system-id}',
 		);
 		
 
@@ -29,7 +29,7 @@
 
 		public function __construct($env=NULL, $process_params=true) {
 			parent::__construct($env, $process_params);
-			$this->_dependencies = array('$ds-comments-by-stream-id.author', '$ds-stream-by-id.author');
+			$this->_dependencies = array('$ds-comments-by-stream-id.author', '$ds-stream-by-id.author', '$ds-showcase-by-id.system-id');
 		}
 
 		public function about() {
@@ -40,7 +40,7 @@
 					'website' => 'http://brendan.dev/dev.getsymphony.com',
 					'email' => 'brendan@bloodbone.ws'),
 				'version' => 'Symphony 2.3.3',
-				'release-date' => '2013-08-21T11:47:59+00:00'
+				'release-date' => '2013-10-07T11:48:22+00:00'
 			);
 		}
 
