@@ -2,30 +2,31 @@
 
 	require_once(TOOLKIT . '/class.datasource.php');
 
-	Class datasourcestream extends SectionDatasource {
+	Class datasourcecomments_by_id extends SectionDatasource {
 
-		public $dsParamROOTELEMENT = 'stream';
+		public $dsParamROOTELEMENT = 'comments-by-id';
 		public $dsParamORDER = 'desc';
 		public $dsParamPAGINATERESULTS = 'yes';
 		public $dsParamLIMIT = '20';
 		public $dsParamSTARTPAGE = '{$url-page:1}';
 		public $dsParamREDIRECTONEMPTY = 'no';
+		public $dsParamREQUIREDPARAM = '$stream-id:$utility-id';
+		public $dsParamPARAMOUTPUT = array(
+				'author'
+		);
 		public $dsParamSORT = 'system:creation-date';
 		public $dsParamASSOCIATEDENTRYCOUNTS = 'no';
 		
 
 		public $dsParamFILTERS = array(
-				'6' => '{$filter-handle}',
-				'5' => 'no',
+				'9' => '{$stream-id:$utility-id}',
 		);
 		
 
 		public $dsParamINCLUDEDELEMENTS = array(
-				'system:pagination',
 				'system:date',
-				'topic',
-				'type',
-				'author'
+				'author',
+				'comment: formatted'
 		);
 		
 
@@ -36,18 +37,18 @@
 
 		public function about() {
 			return array(
-				'name' => 'Stream',
+				'name' => 'Comments by ID',
 				'author' => array(
 					'name' => 'Brendan Abbott',
 					'website' => 'http://brendan.dev/dev.getsymphony.com',
 					'email' => 'brendan@bloodbone.ws'),
 				'version' => 'Symphony 2.3.3',
-				'release-date' => '2013-10-07T01:33:42+00:00'
+				'release-date' => '2013-10-07T01:21:19+00:00'
 			);
 		}
 
 		public function getSource() {
-			return '1';
+			return '2';
 		}
 
 		public function allowEditorToParse() {

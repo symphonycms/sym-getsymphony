@@ -2,9 +2,9 @@
 
 	require_once(TOOLKIT . '/class.datasource.php');
 
-	Class datasourcestream extends SectionDatasource {
+	Class datasourceutilities extends SectionDatasource {
 
-		public $dsParamROOTELEMENT = 'stream';
+		public $dsParamROOTELEMENT = 'utilities';
 		public $dsParamORDER = 'desc';
 		public $dsParamPAGINATERESULTS = 'yes';
 		public $dsParamLIMIT = '20';
@@ -14,17 +14,13 @@
 		public $dsParamASSOCIATEDENTRYCOUNTS = 'no';
 		
 
-		public $dsParamFILTERS = array(
-				'6' => '{$filter-handle}',
-				'5' => 'no',
-		);
 		
 
 		public $dsParamINCLUDEDELEMENTS = array(
 				'system:pagination',
 				'system:date',
-				'topic',
-				'type',
+				'name',
+				'tags',
 				'author'
 		);
 		
@@ -36,18 +32,18 @@
 
 		public function about() {
 			return array(
-				'name' => 'Stream',
+				'name' => 'Utilities',
 				'author' => array(
 					'name' => 'Brendan Abbott',
 					'website' => 'http://brendan.dev/dev.getsymphony.com',
 					'email' => 'brendan@bloodbone.ws'),
 				'version' => 'Symphony 2.3.3',
-				'release-date' => '2013-10-07T01:33:42+00:00'
+				'release-date' => '2013-10-07T01:19:30+00:00'
 			);
 		}
 
 		public function getSource() {
-			return '1';
+			return '4';
 		}
 
 		public function allowEditorToParse() {
