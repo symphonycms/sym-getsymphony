@@ -12,6 +12,28 @@ CREATE TABLE `sym_cache` (
   KEY `hash` (`hash`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- *** STRUCTURE: `sym_elasticsearch_logs` ***
+DROP TABLE IF EXISTS `sym_elasticsearch_logs`;
+CREATE TABLE `sym_elasticsearch_logs` (
+  `id` varchar(255) NOT NULL DEFAULT '',
+  `date` datetime NOT NULL,
+  `keywords` varchar(255) DEFAULT NULL,
+  `keywords_raw` varchar(255) DEFAULT NULL,
+  `sections` varchar(255) DEFAULT NULL,
+  `page` int(11) NOT NULL,
+  `results` int(11) DEFAULT NULL,
+  `session_id` varchar(255) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `keywords` (`keywords`),
+  KEY `date` (`date`),
+  KEY `session_id` (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- *** DATA: `sym_elasticsearch_logs` ***
+
 -- *** STRUCTURE: `sym_entries` ***
 DROP TABLE IF EXISTS `sym_entries`;
 CREATE TABLE `sym_entries` (
@@ -32,13 +54,13 @@ CREATE TABLE `sym_entries` (
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries` ***
-INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (1, 1, 2, '2013-08-21 21:31:24', '2013-08-21 11:31:24', '2013-08-21 21:31:24', '2013-08-21 11:31:24');
+INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (1, 1, 2, '2013-08-21 21:31:24', '2013-08-21 11:31:24', '2013-10-07 22:20:37', '2013-10-07 12:20:37');
 INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (2, 2, 2, '2013-08-21 21:32:00', '2013-08-21 11:32:00', '2013-08-21 21:39:09', '2013-08-21 11:39:09');
 INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (3, 2, 2, '2013-08-21 21:39:55', '2013-08-21 11:39:55', '2013-08-21 21:39:55', '2013-08-21 11:39:55');
 INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (4, 3, 2, '2013-08-21 21:41:20', '2013-08-21 11:41:20', '2013-08-21 21:42:24', '2013-08-21 11:42:24');
 INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (5, 3, 2, '2013-08-21 21:42:37', '2013-08-21 11:42:37', '2013-08-21 21:42:37', '2013-08-21 11:42:37');
 INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (6, 3, 2, '2013-08-21 21:43:01', '2013-08-21 11:43:01', '2013-08-21 21:43:01', '2013-08-21 11:43:01');
-INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (7, 4, 2, '2013-10-07 11:30:51', '2013-10-07 01:30:51', '2013-10-07 11:31:50', '2013-10-07 01:31:50');
+INSERT INTO `sym_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`, `modification_date`, `modification_date_gmt`) VALUES (7, 4, 2, '2013-10-07 11:30:51', '2013-10-07 01:30:51', '2013-10-07 22:17:44', '2013-10-07 12:17:44');
 
 -- *** STRUCTURE: `sym_entries_data_1` ***
 DROP TABLE IF EXISTS `sym_entries_data_1`;
@@ -51,10 +73,10 @@ CREATE TABLE `sym_entries_data_1` (
   UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_1` ***
-INSERT INTO `sym_entries_data_1` (`id`, `entry_id`, `handle`, `value`) VALUES (1, 1, 'symphony-factory', 'Symphony Factory');
+INSERT INTO `sym_entries_data_1` (`id`, `entry_id`, `handle`, `value`) VALUES (3, 1, 'symphony-factory', 'Symphony Factory');
 
 -- *** STRUCTURE: `sym_entries_data_10` ***
 DROP TABLE IF EXISTS `sym_entries_data_10`;
@@ -155,25 +177,10 @@ CREATE TABLE `sym_entries_data_15` (
   UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_15` ***
-INSERT INTO `sym_entries_data_15` (`id`, `entry_id`, `handle`, `value`) VALUES (2, 7, 'timespan-format', 'Timespan format');
-
--- *** STRUCTURE: `sym_entries_data_16` ***
-DROP TABLE IF EXISTS `sym_entries_data_16`;
-CREATE TABLE `sym_entries_data_16` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `entry_id` int(11) unsigned NOT NULL,
-  `value` mediumtext COLLATE utf8_unicode_ci,
-  `value_formatted` mediumtext COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `entry_id` (`entry_id`),
-  FULLTEXT KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- *** DATA: `sym_entries_data_16` ***
-INSERT INTO `sym_entries_data_16` (`id`, `entry_id`, `value`, `value_formatted`) VALUES (2, 7, '<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\r\n\r\n<!--\r\n\r\nDrop me a note @kirkstrobeck if you use this, I\'d like to see it in the wild :P\r\n\r\n\r\nExample XSL generated from https://github.com/hananils/datetime\r\n\r\n	<date timeline=\"1\" type=\"range\">\r\n		<start iso=\"2012-11-17T13:00:00-08:00\" time=\"13:00\" weekday=\"6\" offset=\"-0800\">2012-11-17</start>\r\n		<end iso=\"2012-07-29T08:00:00-07:00\" time=\"08:00\" weekday=\"7\" offset=\"-0700\">2012-07-29</end>\r\n	</date>\r\n\r\n\r\nCall using\r\n\r\n	<xsl:call-template name=\"timespan-format\">\r\n		<xsl:with-param name=\"date\" select=\"date\" />\r\n	</xsl:call-template>\r\n\r\n\r\nExamples are ..\r\n\r\n	- Saturday, Nov. 17 at 10am\r\n	- Saturday, Nov. 17 from 1-2pm\r\n	- Saturday, Nov. 17 from 10am-2:30pm\r\n	- Saturday, Nov. 17th at 10am - Monday, the 19th at 11am\r\n	- Saturday, Nov. 17 at 1pm - Sunday, Jul. 29 at 8am\r\n\r\n-->\r\n\r\n<xsl:template name=\"timespan-format\">\r\n\r\n	<xsl:param name=\"date\" />\r\n\r\n	<xsl:for-each select=\"$date\">\r\n		<xsl:choose>\r\n			<xsl:when test=\"start and end\">\r\n				<xsl:variable name=\"start-month\">\r\n					<xsl:call-template name=\"format-date\">\r\n						<xsl:with-param name=\"date\" select=\"start/@iso\" />\r\n						<xsl:with-param name=\"format\" select=\"\'%m;\'\" />\r\n					</xsl:call-template>\r\n				</xsl:variable>\r\n				<xsl:variable name=\"end-month\">\r\n					<xsl:call-template name=\"format-date\">\r\n						<xsl:with-param name=\"date\" select=\"end/@iso\" />\r\n						<xsl:with-param name=\"format\" select=\"\'%m;\'\" />\r\n					</xsl:call-template>\r\n				</xsl:variable>\r\n				<xsl:variable name=\"start-day\">\r\n					<xsl:call-template name=\"format-date\">\r\n						<xsl:with-param name=\"date\" select=\"start/@iso\" />\r\n						<xsl:with-param name=\"format\" select=\"\'%d;\'\" />\r\n					</xsl:call-template>\r\n				</xsl:variable>\r\n				<xsl:variable name=\"end-day\">\r\n					<xsl:call-template name=\"format-date\">\r\n						<xsl:with-param name=\"date\" select=\"end/@iso\" />\r\n						<xsl:with-param name=\"format\" select=\"\'%d;\'\" />\r\n					</xsl:call-template>\r\n				</xsl:variable>\r\n				<xsl:variable name=\"start-ampm\">\r\n					<xsl:call-template name=\"format-date\">\r\n						<xsl:with-param name=\"date\" select=\"start/@iso\" />\r\n						<xsl:with-param name=\"format\" select=\"\'#ts;\'\" />\r\n					</xsl:call-template>\r\n				</xsl:variable>\r\n				<xsl:variable name=\"end-ampm\">\r\n					<xsl:call-template name=\"format-date\">\r\n						<xsl:with-param name=\"date\" select=\"end/@iso\" />\r\n						<xsl:with-param name=\"format\" select=\"\'#ts;\'\" />\r\n					</xsl:call-template>\r\n				</xsl:variable>\r\n				<xsl:choose>\r\n					<xsl:when test=\"$start-day = $end-day\">\r\n						<xsl:call-template name=\"format-date\">\r\n							<xsl:with-param name=\"date\" select=\"start/@iso\" />\r\n							<xsl:with-param name=\"format\" select=\"\'%d+;, %m-;. %d;%ds;\'\" />\r\n						</xsl:call-template>\r\n						<xsl:text> from </xsl:text>\r\n						<xsl:call-template name=\"timespan-format-time\">\r\n							<xsl:with-param name=\"date\" select=\"start/@iso\" />\r\n						</xsl:call-template>\r\n						<xsl:if test=\"not($start-ampm = $end-ampm)\">\r\n							<xsl:value-of select=\"$start-ampm\" />\r\n						</xsl:if>\r\n						<xsl:if test=\"end\">\r\n							<xsl:text>-</xsl:text>\r\n							<xsl:call-template name=\"timespan-format-time\">\r\n								<xsl:with-param name=\"date\" select=\"end/@iso\" />\r\n							</xsl:call-template>\r\n						</xsl:if>\r\n						<xsl:value-of select=\"$end-ampm\" />\r\n					</xsl:when>\r\n					<xsl:otherwise>\r\n						<xsl:call-template name=\"timespan-format-single-datetime\">\r\n							<xsl:with-param name=\"date\" select=\"start\" />\r\n						</xsl:call-template>\r\n						<xsl:text> - </xsl:text>\r\n						<xsl:choose>\r\n							<xsl:when test=\"$start-month = $end-month\">\r\n								<xsl:call-template name=\"timespan-format-single-datetime\">\r\n									<xsl:with-param name=\"date\" select=\"end\" />\r\n									<xsl:with-param name=\"no-month\" select=\"true()\" />\r\n								</xsl:call-template>\r\n							</xsl:when>\r\n							<xsl:otherwise>\r\n								<xsl:call-template name=\"timespan-format-single-datetime\">\r\n									<xsl:with-param name=\"date\" select=\"end\" />\r\n								</xsl:call-template>\r\n							</xsl:otherwise>\r\n						</xsl:choose>\r\n					</xsl:otherwise>\r\n				</xsl:choose>\r\n			</xsl:when>\r\n			<xsl:otherwise>\r\n				<xsl:call-template name=\"timespan-format-single-datetime\">\r\n					<xsl:with-param name=\"date\" select=\"start\" />\r\n				</xsl:call-template>\r\n			</xsl:otherwise>\r\n		</xsl:choose>\r\n	</xsl:for-each>\r\n\r\n</xsl:template>\r\n\r\n\r\n<xsl:template name=\"timespan-format-single-datetime\">\r\n\r\n	<xsl:param name=\"date\" /> <!-- start or end -->\r\n	<xsl:param name=\"no-month\" select=\"false()\" />\r\n\r\n	<xsl:for-each select=\"$date\">\r\n		<xsl:choose>\r\n			<xsl:when test=\"$no-month\">\r\n				<xsl:call-template name=\"format-date\">\r\n					<xsl:with-param name=\"date\" select=\"@iso\" />\r\n					<xsl:with-param name=\"format\" select=\"\'%d+;, the %d;%ds;\'\" />\r\n				</xsl:call-template>\r\n			</xsl:when>\r\n			<xsl:otherwise>\r\n				<xsl:call-template name=\"format-date\">\r\n					<xsl:with-param name=\"date\" select=\"@iso\" />\r\n					<xsl:with-param name=\"format\" select=\"\'%d+;, %m-;. %d;%ds;\'\" />\r\n				</xsl:call-template>\r\n			</xsl:otherwise>\r\n		</xsl:choose>\r\n		<xsl:text> at </xsl:text>\r\n		<xsl:call-template name=\"timespan-format-time\">\r\n			<xsl:with-param name=\"date\" select=\"@iso\" />\r\n		</xsl:call-template>\r\n		<xsl:text> </xsl:text>\r\n		<xsl:call-template name=\"format-date\">\r\n			<xsl:with-param name=\"date\" select=\"@iso\" />\r\n			<xsl:with-param name=\"format\" select=\"\'#ts;\'\" />\r\n		</xsl:call-template>\r\n	</xsl:for-each>\r\n\r\n</xsl:template>\r\n\r\n\r\n<xsl:template name=\"timespan-format-time\">\r\n\r\n	<xsl:param name=\"date\" /> <!-- iso -->\r\n\r\n	<xsl:variable name=\"minutes\">\r\n		<xsl:call-template name=\"format-date\">\r\n			<xsl:with-param name=\"date\" select=\"$date\" />\r\n			<xsl:with-param name=\"format\" select=\"\'#0m;\'\" />\r\n		</xsl:call-template>\r\n	</xsl:variable>\r\n	<xsl:choose>\r\n		<xsl:when test=\"$minutes = \'00\'\">\r\n			<xsl:call-template name=\"format-date\">\r\n				<xsl:with-param name=\"date\" select=\"$date\" />\r\n				<xsl:with-param name=\"format\" select=\"\'#h;\'\" />\r\n			</xsl:call-template>\r\n		</xsl:when>\r\n		<xsl:otherwise>\r\n			<xsl:call-template name=\"format-date\">\r\n				<xsl:with-param name=\"date\" select=\"$date\" />\r\n				<xsl:with-param name=\"format\" select=\"\'#h;:#0m;\'\" />\r\n			</xsl:call-template>\r\n		</xsl:otherwise>\r\n	</xsl:choose>\r\n\r\n</xsl:template>\r\n\r\n\r\n</xsl:stylesheet>', NULL);
+INSERT INTO `sym_entries_data_15` (`id`, `entry_id`, `handle`, `value`) VALUES (7, 7, 'bananafixe', 'Bananafixe');
 
 -- *** STRUCTURE: `sym_entries_data_17` ***
 DROP TABLE IF EXISTS `sym_entries_data_17`;
@@ -186,10 +193,10 @@ CREATE TABLE `sym_entries_data_17` (
   KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_17` ***
-INSERT INTO `sym_entries_data_17` (`id`, `entry_id`, `handle`, `value`) VALUES (1, 7, 'date', 'date');
+INSERT INTO `sym_entries_data_17` (`id`, `entry_id`, `handle`, `value`) VALUES (6, 7, 'africa', 'africa');
 
 -- *** STRUCTURE: `sym_entries_data_18` ***
 DROP TABLE IF EXISTS `sym_entries_data_18`;
@@ -202,10 +209,10 @@ CREATE TABLE `sym_entries_data_18` (
   UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_18` ***
-INSERT INTO `sym_entries_data_18` (`id`, `entry_id`, `handle`, `value`) VALUES (2, 7, 200, 200);
+INSERT INTO `sym_entries_data_18` (`id`, `entry_id`, `handle`, `value`) VALUES (7, 7, 200, 200);
 
 -- *** STRUCTURE: `sym_entries_data_19` ***
 DROP TABLE IF EXISTS `sym_entries_data_19`;
@@ -217,10 +224,10 @@ CREATE TABLE `sym_entries_data_19` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `entry_id` (`entry_id`),
   FULLTEXT KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_19` ***
-INSERT INTO `sym_entries_data_19` (`id`, `entry_id`, `value`, `value_formatted`) VALUES (1, 7, 'This utility takes an ISO start time and and an optional end time using this extension\r\nhttps://github.com/hananils/datetime\r\n\r\nand formats the date and time in the easiest to understand format.\r\n\r\nExamples are ..\r\n\r\nSaturday, Nov. 17 at 10am\r\nSaturday, Nov. 17 from 1-2pm\r\nSaturday, Nov. 17 from 10am-2:30pm\r\nSaturday, Nov. 17th at 10am - Monday, the 19th at 11am\r\nSaturday, Nov. 17 at 1pm - Sunday, Jul. 29 at 8am', '<p>This utility takes an ISO start time and and an optional end time using this extension\nhttps://github.com/hananils/datetime</p>\n\n<p>and formats the date and time in the easiest to understand format.</p>\n\n<p>Examples are ..</p>\n\n<p>Saturday, Nov. 17 at 10am\nSaturday, Nov. 17 from 1-2pm\nSaturday, Nov. 17 from 10am-2:30pm\nSaturday, Nov. 17th at 10am - Monday, the 19th at 11am\nSaturday, Nov. 17 at 1pm - Sunday, Jul. 29 at 8am</p>\n');
+INSERT INTO `sym_entries_data_19` (`id`, `entry_id`, `value`, `value_formatted`) VALUES (6, 7, 'Bananafixe - Digital agency, based in São Tomé e Príncipe and Mozambique, specialized in websites and hospitality, tourism solutions', '<p>Bananafixe - Digital agency, based in São Tomé e Príncipe and Mozambique, specialized in websites and hospitality, tourism solutions</p>\n');
 
 -- *** STRUCTURE: `sym_entries_data_2` ***
 DROP TABLE IF EXISTS `sym_entries_data_2`;
@@ -232,10 +239,43 @@ CREATE TABLE `sym_entries_data_2` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `entry_id` (`entry_id`),
   FULLTEXT KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_2` ***
-INSERT INTO `sym_entries_data_2` (`id`, `entry_id`, `value`, `value_formatted`) VALUES (1, 1, '# Symphony Network evolving\r\n\r\nThe network is growing...', '<h1>Symphony Network evolving</h1>\n\n<p>The network is growing&#8230;</p>\n');
+INSERT INTO `sym_entries_data_2` (`id`, `entry_id`, `value`, `value_formatted`) VALUES (3, 1, '# Symphony Network evolving\r\n\r\nThe network is growing...', '<h1>Symphony Network evolving</h1>\n\n<p>The network is growing...</p>\n');
+
+-- *** STRUCTURE: `sym_entries_data_20` ***
+DROP TABLE IF EXISTS `sym_entries_data_20`;
+CREATE TABLE `sym_entries_data_20` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `entry_id` int(11) unsigned NOT NULL,
+  `handle` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
+  KEY `handle` (`handle`),
+  KEY `value` (`value`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- *** DATA: `sym_entries_data_20` ***
+INSERT INTO `sym_entries_data_20` (`id`, `entry_id`, `handle`, `value`) VALUES (5, 7, 'http-wwwbananafixecom', 'http://www.bananafixe.com/');
+
+-- *** STRUCTURE: `sym_entries_data_21` ***
+DROP TABLE IF EXISTS `sym_entries_data_21`;
+CREATE TABLE `sym_entries_data_21` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `entry_id` int(11) unsigned NOT NULL,
+  `file` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `size` int(11) unsigned DEFAULT NULL,
+  `mimetype` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
+  KEY `file` (`file`),
+  KEY `mimetype` (`mimetype`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- *** DATA: `sym_entries_data_21` ***
 
 -- *** STRUCTURE: `sym_entries_data_3` ***
 DROP TABLE IF EXISTS `sym_entries_data_3`;
@@ -248,10 +288,10 @@ CREATE TABLE `sym_entries_data_3` (
   KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_3` ***
-INSERT INTO `sym_entries_data_3` (`id`, `entry_id`, `handle`, `value`) VALUES (1, 1, 'open', 'Open');
+INSERT INTO `sym_entries_data_3` (`id`, `entry_id`, `handle`, `value`) VALUES (3, 1, 'open', 'Open');
 
 -- *** STRUCTURE: `sym_entries_data_4` ***
 DROP TABLE IF EXISTS `sym_entries_data_4`;
@@ -264,10 +304,10 @@ CREATE TABLE `sym_entries_data_4` (
   UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_4` ***
-INSERT INTO `sym_entries_data_4` (`id`, `entry_id`, `handle`, `value`) VALUES (1, 1, 100, 100);
+INSERT INTO `sym_entries_data_4` (`id`, `entry_id`, `handle`, `value`) VALUES (3, 1, 100, 100);
 
 -- *** STRUCTURE: `sym_entries_data_5` ***
 DROP TABLE IF EXISTS `sym_entries_data_5`;
@@ -278,10 +318,10 @@ CREATE TABLE `sym_entries_data_5` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `entry_id` (`entry_id`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_5` ***
-INSERT INTO `sym_entries_data_5` (`id`, `entry_id`, `value`) VALUES (1, 1, 'no');
+INSERT INTO `sym_entries_data_5` (`id`, `entry_id`, `value`) VALUES (3, 1, 'no');
 
 -- *** STRUCTURE: `sym_entries_data_6` ***
 DROP TABLE IF EXISTS `sym_entries_data_6`;
@@ -294,10 +334,10 @@ CREATE TABLE `sym_entries_data_6` (
   KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_entries_data_6` ***
-INSERT INTO `sym_entries_data_6` (`id`, `entry_id`, `handle`, `value`) VALUES (1, 1, 'discussion', 'Discussion');
+INSERT INTO `sym_entries_data_6` (`id`, `entry_id`, `handle`, `value`) VALUES (3, 1, 'discussion', 'Discussion');
 
 -- *** STRUCTURE: `sym_entries_data_7` ***
 DROP TABLE IF EXISTS `sym_entries_data_7`;
@@ -356,7 +396,7 @@ CREATE TABLE `sym_extensions` (
   `version` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_extensions` ***
 INSERT INTO `sym_extensions` (`id`, `name`, `status`, `version`) VALUES (1, 'debugdevkit', 'enabled', '1.2.4');
@@ -370,6 +410,7 @@ INSERT INTO `sym_extensions` (`id`, `name`, `status`, `version`) VALUES (8, 'xss
 INSERT INTO `sym_extensions` (`id`, `name`, `status`, `version`) VALUES (9, 'dump_db', 'enabled', 1.10);
 INSERT INTO `sym_extensions` (`id`, `name`, `status`, `version`) VALUES (10, 'publish_tabs', 'enabled', '1.1.2');
 INSERT INTO `sym_extensions` (`id`, `name`, `status`, `version`) VALUES (12, 'uniondatasource', 'enabled', '1.0.4');
+INSERT INTO `sym_extensions` (`id`, `name`, `status`, `version`) VALUES (13, 'elasticsearch', 'enabled', '0.4.0');
 
 -- *** STRUCTURE: `sym_extensions_delegates` ***
 DROP TABLE IF EXISTS `sym_extensions_delegates`;
@@ -383,7 +424,7 @@ CREATE TABLE `sym_extensions_delegates` (
   KEY `extension_id` (`extension_id`),
   KEY `page` (`page`),
   KEY `delegate` (`delegate`)
-) ENGINE=MyISAM AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_extensions_delegates` ***
 INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (62, 1, '/frontend/', 'ManipulateDevKitNavigation', 'manipulateDevKitNavigation');
@@ -407,6 +448,13 @@ INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`
 INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (58, 8, '/blueprints/events/new/', 'AppendEventFilter', 'appendEventFilter');
 INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (72, 4, '/frontend/', 'FrontendParamsResolve', '__addParam');
 INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (75, 10, '/backend/', 'InitaliseAdminPageHead', 'initializeAdmin');
+INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (77, 13, '/publish/new/', 'EntryPostCreate', 'indexEntry');
+INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (78, 13, '/publish/edit/', 'EntryPostEdit', 'indexEntry');
+INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (79, 13, '/frontend/', 'EventPostSaveFilter', 'indexEntry');
+INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (80, 13, '/publish/', 'EntryPreDelete', 'deleteEntry');
+INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (81, 13, '/system/preferences/', 'AddCustomPreferenceFieldsets', 'appendPreferences');
+INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (82, 13, '/system/preferences/', 'Save', 'savePreferences');
+INSERT INTO `sym_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (83, 13, '/frontend/', 'FrontendPageResolved', 'generate_session');
 
 -- *** STRUCTURE: `sym_fields` ***
 DROP TABLE IF EXISTS `sym_fields`;
@@ -422,7 +470,7 @@ CREATE TABLE `sym_fields` (
   `show_column` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `index` (`element_name`,`type`,`parent_section`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_fields` ***
 INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (1, 'Topic', 'topic', 'input', 1, 'yes', 0, 'main', 'yes');
@@ -439,11 +487,12 @@ INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section
 INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (12, 'Name', 'name', 'input', 3, 'no', 2, 'main', 'yes');
 INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (13, 'Country', 'country', 'input', 3, 'no', 3, 'sidebar', 'yes');
 INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (14, 'Starred Stream', 'starred-stream', 'selectbox_link', 3, 'no', 4, 'sidebar', 'no');
-INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (15, 'Name', 'name', 'input', 4, 'no', 0, 'main', 'yes');
-INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (16, 'Content', 'content', 'textarea', 4, 'no', 1, 'main', 'no');
+INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (15, 'Name', 'name', 'input', 4, 'yes', 0, 'main', 'yes');
+INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (21, 'Screenshot', 'screenshot', 'upload', 4, 'no', 5, 'sidebar', 'no');
 INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (17, 'Tags', 'tags', 'taglist', 4, 'no', 3, 'sidebar', 'yes');
 INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (18, 'Author', 'author', 'input', 4, 'no', 4, 'sidebar', 'yes');
-INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (19, 'Description', 'description', 'textarea', 4, 'no', 2, 'sidebar', 'no');
+INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (19, 'Description', 'description', 'textarea', 4, 'yes', 1, 'main', 'no');
+INSERT INTO `sym_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (20, 'Link', 'link', 'input', 4, 'yes', 2, 'main', 'yes');
 
 -- *** STRUCTURE: `sym_fields_author` ***
 DROP TABLE IF EXISTS `sym_fields_author`;
@@ -468,10 +517,10 @@ CREATE TABLE `sym_fields_checkbox` (
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_fields_checkbox` ***
-INSERT INTO `sym_fields_checkbox` (`id`, `field_id`, `default_state`, `description`) VALUES (6, 5, 'off', NULL);
+INSERT INTO `sym_fields_checkbox` (`id`, `field_id`, `default_state`, `description`) VALUES (7, 5, 'off', NULL);
 
 -- *** STRUCTURE: `sym_fields_date` ***
 DROP TABLE IF EXISTS `sym_fields_date`;
@@ -493,18 +542,19 @@ CREATE TABLE `sym_fields_input` (
   `validator` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_fields_input` ***
-INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (27, 1, NULL);
-INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (28, 4, '/^-?(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/i');
+INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (35, 1, NULL);
+INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (36, 4, '/^-?(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/i');
 INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (32, 7, NULL);
 INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (17, 10, NULL);
 INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (18, 11, NULL);
 INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (19, 12, NULL);
 INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (20, 13, NULL);
-INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (33, 15, NULL);
-INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (34, 18, NULL);
+INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (49, 15, NULL);
+INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (51, 18, NULL);
+INSERT INTO `sym_fields_input` (`id`, `field_id`, `validator`) VALUES (50, 20, '/^[^\\s:\\/?#]+:(?:\\/{2,3})?[^\\s.\\/?#]+(?:\\.[^\\s.\\/?#]+)*(?:\\/?[^\\s?#]*\\??[^\\s?#]*(#[^\\s#]*)?)?$/');
 
 -- *** STRUCTURE: `sym_fields_publish_tabs` ***
 DROP TABLE IF EXISTS `sym_fields_publish_tabs`;
@@ -528,11 +578,11 @@ CREATE TABLE `sym_fields_select` (
   `dynamic_options` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_fields_select` ***
-INSERT INTO `sym_fields_select` (`id`, `field_id`, `allow_multiple_selection`, `show_association`, `sort_options`, `static_options`, `dynamic_options`) VALUES (11, 3, 'no', 'no', 'yes', 'Open, Locked', NULL);
-INSERT INTO `sym_fields_select` (`id`, `field_id`, `allow_multiple_selection`, `show_association`, `sort_options`, `static_options`, `dynamic_options`) VALUES (12, 6, 'no', 'no', 'yes', 'Discussion, Showcase, Extension', NULL);
+INSERT INTO `sym_fields_select` (`id`, `field_id`, `allow_multiple_selection`, `show_association`, `sort_options`, `static_options`, `dynamic_options`) VALUES (13, 3, 'no', 'no', 'yes', 'Open, Locked', NULL);
+INSERT INTO `sym_fields_select` (`id`, `field_id`, `allow_multiple_selection`, `show_association`, `sort_options`, `static_options`, `dynamic_options`) VALUES (14, 6, 'no', 'no', 'yes', 'Discussion, Annoucement', NULL);
 
 -- *** STRUCTURE: `sym_fields_selectbox_link` ***
 DROP TABLE IF EXISTS `sym_fields_selectbox_link`;
@@ -562,10 +612,10 @@ CREATE TABLE `sym_fields_taglist` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   KEY `pre_populate_source` (`pre_populate_source`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_fields_taglist` ***
-INSERT INTO `sym_fields_taglist` (`id`, `field_id`, `validator`, `pre_populate_source`) VALUES (3, 17, NULL, 'existing');
+INSERT INTO `sym_fields_taglist` (`id`, `field_id`, `validator`, `pre_populate_source`) VALUES (8, 17, NULL, 'existing');
 
 -- *** STRUCTURE: `sym_fields_textarea` ***
 DROP TABLE IF EXISTS `sym_fields_textarea`;
@@ -576,13 +626,12 @@ CREATE TABLE `sym_fields_textarea` (
   `size` int(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_fields_textarea` ***
-INSERT INTO `sym_fields_textarea` (`id`, `field_id`, `formatter`, `size`) VALUES (10, 2, 'markdown_with_purifier', 15);
+INSERT INTO `sym_fields_textarea` (`id`, `field_id`, `formatter`, `size`) VALUES (16, 2, 'markdown_with_purifier', 15);
 INSERT INTO `sym_fields_textarea` (`id`, `field_id`, `formatter`, `size`) VALUES (13, 8, 'markdown_with_purifier', 15);
-INSERT INTO `sym_fields_textarea` (`id`, `field_id`, `formatter`, `size`) VALUES (14, 16, NULL, 15);
-INSERT INTO `sym_fields_textarea` (`id`, `field_id`, `formatter`, `size`) VALUES (15, 19, 'markdown_with_purifier', 15);
+INSERT INTO `sym_fields_textarea` (`id`, `field_id`, `formatter`, `size`) VALUES (22, 19, 'markdown_with_purifier', 15);
 
 -- *** STRUCTURE: `sym_fields_upload` ***
 DROP TABLE IF EXISTS `sym_fields_upload`;
@@ -593,9 +642,10 @@ CREATE TABLE `sym_fields_upload` (
   `validator` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_fields_upload` ***
+INSERT INTO `sym_fields_upload` (`id`, `field_id`, `destination`, `validator`) VALUES (3, 21, '/workspace/uploads/showcase', '/\\.(?:gif|jpe?g|png)$/i');
 
 -- *** STRUCTURE: `sym_pages` ***
 DROP TABLE IF EXISTS `sym_pages`;
@@ -619,15 +669,14 @@ INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `d
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (3, NULL, 'Discussions', 'discussions', NULL, NULL, NULL, NULL, 8);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (4, NULL, 'Questions', 'questions', NULL, NULL, NULL, NULL, 9);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (5, NULL, 'Blog', 'blog', NULL, NULL, NULL, NULL, 10);
-INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (6, NULL, 'Showcase', 'showcase', NULL, NULL, NULL, NULL, 11);
-INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (7, NULL, 'Events', 'events', NULL, NULL, NULL, NULL, 12);
-INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (8, NULL, 'About', 'about', NULL, NULL, NULL, NULL, 13);
-INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (9, NULL, 'Maintenance', 'maintenance', NULL, NULL, NULL, NULL, 14);
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (6, NULL, 'Showcase', 'showcase', NULL, NULL, 'showcase', NULL, 5);
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (7, NULL, 'Events', 'events', NULL, NULL, NULL, NULL, 11);
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (8, NULL, 'About', 'about', NULL, NULL, NULL, NULL, 12);
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (9, NULL, 'Maintenance', 'maintenance', NULL, NULL, NULL, NULL, 13);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (10, 2, 'Create', 'create', 'stream', NULL, 'read_member_by_id', 'create_stream', 4);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (12, 2, 'Read', 'read', 'stream', 'stream-id/stream-handle', 'comments_by_id,read_member_by_id,stream_by_id', 'create_comment', 3);
-INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (14, NULL, 'Utility', 'utility', NULL, NULL, 'utilities', NULL, 5);
-INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (16, 14, 'Create', 'create', 'utility', NULL, NULL, 'create_utility', 7);
-INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (15, 14, 'Read', 'read', 'utility', 'utility-id/utility-handle', 'comments_by_id,utility_by_id', 'create_comment', 6);
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (16, 6, 'Create', 'create', 'showcase', NULL, NULL, 'create_showcase', 7);
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (15, 6, 'Read', 'read', 'showcase', 'showcase-id/showcase-handle', 'comments_by_id,read_member_by_id,showcase_by_id', 'create_comment', 6);
 
 -- *** STRUCTURE: `sym_pages_types` ***
 DROP TABLE IF EXISTS `sym_pages_types`;
@@ -660,7 +709,7 @@ CREATE TABLE `sym_sections` (
 INSERT INTO `sym_sections` (`id`, `name`, `handle`, `sortorder`, `hidden`, `navigation_group`) VALUES (1, 'Stream', 'stream', 1, 'no', 'Stream');
 INSERT INTO `sym_sections` (`id`, `name`, `handle`, `sortorder`, `hidden`, `navigation_group`) VALUES (2, 'Comments', 'comments', 2, 'no', 'Content');
 INSERT INTO `sym_sections` (`id`, `name`, `handle`, `sortorder`, `hidden`, `navigation_group`) VALUES (3, 'Members', 'members', 3, 'no', 'Members (Temporary..)');
-INSERT INTO `sym_sections` (`id`, `name`, `handle`, `sortorder`, `hidden`, `navigation_group`) VALUES (4, 'Utilities', 'utilities', 4, 'no', 'Stream');
+INSERT INTO `sym_sections` (`id`, `name`, `handle`, `sortorder`, `hidden`, `navigation_group`) VALUES (4, 'Showcase', 'showcase', 4, 'no', 'Stream');
 
 -- *** STRUCTURE: `sym_sections_association` ***
 DROP TABLE IF EXISTS `sym_sections_association`;
