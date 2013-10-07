@@ -33,6 +33,8 @@ CREATE TABLE `sym_elasticsearch_logs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- *** DATA: `sym_elasticsearch_logs` ***
+INSERT INTO `sym_elasticsearch_logs` (`id`, `date`, `keywords`, `keywords_raw`, `sections`, `page`, `results`, `session_id`, `user_agent`, `ip`) VALUES ('bed0b8b82a8db128bb8cfcf17f690b95dffdfe3f', '2013-10-07 22:46:06', 'africa', 'africa', 'showcase,stream', 1, 0, '5252a7cbbf5871381148619', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', '127.0.0.1');
+INSERT INTO `sym_elasticsearch_logs` (`id`, `date`, `keywords`, `keywords_raw`, `sections`, `page`, `results`, `session_id`, `user_agent`, `ip`) VALUES ('f38a28740f0feb42f9e0fc43900d2fb5d46c8804', '2013-10-07 22:50:56', 'symphony', 'symphony', 'showcase,stream', 1, 1, '5252a7cbbf5871381148619', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', '127.0.0.1');
 
 -- *** STRUCTURE: `sym_entries` ***
 DROP TABLE IF EXISTS `sym_entries`;
@@ -661,7 +663,7 @@ CREATE TABLE `sym_pages` (
   `sortorder` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** DATA: `sym_pages` ***
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (1, NULL, 'Home', 'home', NULL, NULL, NULL, NULL, 1);
@@ -675,6 +677,7 @@ INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `d
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (9, NULL, 'Maintenance', 'maintenance', NULL, NULL, NULL, NULL, 13);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (10, 2, 'Create', 'create', 'stream', NULL, 'read_member_by_id', 'create_stream', 4);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (12, 2, 'Read', 'read', 'stream', 'stream-id/stream-handle', 'comments_by_id,read_member_by_id,stream_by_id', 'create_comment', 3);
+INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (17, NULL, 'Search', 'search', NULL, NULL, 'elasticsearch,read_member_by_id,search_showcase,search_stream', NULL, 14);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (16, 6, 'Create', 'create', 'showcase', NULL, NULL, 'create_showcase', 7);
 INSERT INTO `sym_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `data_sources`, `events`, `sortorder`) VALUES (15, 6, 'Read', 'read', 'showcase', 'showcase-id/showcase-handle', 'comments_by_id,read_member_by_id,showcase_by_id', 'create_comment', 6);
 

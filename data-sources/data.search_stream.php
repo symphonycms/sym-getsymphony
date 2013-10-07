@@ -2,50 +2,56 @@
 
 	require_once(TOOLKIT . '/class.datasource.php');
 
-	Class datasourceread_member_by_id extends SectionDatasource {
+	Class datasourcesearch_stream extends SectionDatasource {
 
-		public $dsParamROOTELEMENT = 'read-member-by-id';
+		public $dsParamROOTELEMENT = 'search-stream';
 		public $dsParamORDER = 'desc';
-		public $dsParamPAGINATERESULTS = 'no';
+		public $dsParamPAGINATERESULTS = 'yes';
 		public $dsParamLIMIT = '20';
-		public $dsParamSTARTPAGE = '1';
+		public $dsParamSTARTPAGE = '{$url-page:1}';
 		public $dsParamREDIRECTONEMPTY = 'no';
+		public $dsParamREQUIREDPARAM = '$ds-elasticsearch';
+		public $dsParamPARAMOUTPUT = array(
+				'author'
+		);
 		public $dsParamSORT = 'system:id';
 		public $dsParamASSOCIATEDENTRYCOUNTS = 'no';
 		
 
 		public $dsParamFILTERS = array(
-				'10' => '{$ds-comments-by-stream-id.author}, {$ds-stream-by-id.author}, {$ds-showcase-by-id.system-id}, {$ds-search-showcase.author}, {$ds-search-stream.author}',
+				'system:id' => '{$ds-elasticsearch}',
 		);
 		
 
 		public $dsParamINCLUDEDELEMENTS = array(
-				'member-id',
-				'username',
-				'name',
-				'country'
+				'system:date',
+				'topic',
+				'content: formatted',
+				'state',
+				'type',
+				'author'
 		);
 		
 
 		public function __construct($env=NULL, $process_params=true) {
 			parent::__construct($env, $process_params);
-			$this->_dependencies = array('$ds-comments-by-stream-id.author', '$ds-stream-by-id.author', '$ds-showcase-by-id.system-id', '$ds-search-showcase.author', '$ds-search-stream.author');
+			$this->_dependencies = array('$ds-elasticsearch');
 		}
 
 		public function about() {
 			return array(
-				'name' => 'Read Member by ID',
+				'name' => 'Search: Stream',
 				'author' => array(
 					'name' => 'Brendan Abbott',
 					'website' => 'http://brendan.dev/dev.getsymphony.com',
 					'email' => 'brendan@bloodbone.ws'),
 				'version' => 'Symphony 2.3.3',
-				'release-date' => '2013-10-07T12:54:30+00:00'
+				'release-date' => '2013-10-07T12:53:02+00:00'
 			);
 		}
 
 		public function getSource() {
-			return '3';
+			return '1';
 		}
 
 		public function allowEditorToParse() {

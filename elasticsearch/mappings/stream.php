@@ -6,7 +6,7 @@ class elasticsearch_stream {
 
         $json['_boost'] = 1;
 
-        $json['title'] = $data['title']['value'];
+        $json['topic'] = $data['topic']['value'];
         $json['content'] = $data['content']['value'];
 		$json['type'] = $data['type']['value'];
 
