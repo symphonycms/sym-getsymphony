@@ -34,3 +34,6 @@
 [submodule "extensions/publish_tabs"]
 	path = extensions/publish_tabs
 	url = git://github.com/symphonists/publish_tabs.git
+[submodule "extensions/uniondatasource"]
+	path = extensions/uniondatasource
+	url = git://github.com/brendo/uniondatasource.git
